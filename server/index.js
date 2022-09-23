@@ -26,7 +26,17 @@ app.post(routes.createItem, urlencodedParser, (req, res) => {
     
     itemsDb.setData(`${JSON.stringify([...itemsDb.value,req.body.data])}`)
 })
-// [...itemsDb.value, req.body]
+
+app.post(routes.editComment,urlencodedParser, (req, res) => {
+    console.log('req.body',req.body.fetchData)
+    const ourGood = itemsDb.value.filter(elem => elem._id === req.body.fetchData.id)
+    const ourGoods = itemsDb.value.filter(elem => elem._id !== req.body.fetchData.id)
+    console.log('ourGood',ourGood,ourGoods)
+    console.log(ourGood[0].comments = [...ourGood[0]?.comments, {id: new Date().valueOf(),description:req.body.fetchData.title}])
+    console.log(`${JSON.stringify([...ourGoods,ourGood])}`)
+    itemsDb.setData(`${JSON.stringify([...ourGoods,ourGood])}`)
+})
+
 app.delete(routes.deleteItem, urlencodedParser, (req, res) => {
     console.log(req.body.data._id)
     let id = req.body.data._id
